@@ -1,0 +1,19 @@
+.bookRack {
+  width: 100%;
+  h2 {
+    font-size: 40px;
+    text-transform: uppercase;
+    text-align: left;
+    color: #f6f6f2;
+    font-weight: bold;
+    padding: 0 10px 10px;
+    text-decoration: underline;
+  }
+
+  .books-list {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+  }
+}
