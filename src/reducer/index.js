@@ -30,14 +30,13 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   const newState = { ...state };
-
+  console.log("newState", newState);
   switch (action.type) {
-    case "SET_NEW_NAME":
-      return { ...newState, name: action.name };
     case "ADD_NEW_BOOK":
       return {
         ...newState,
-        books: action.books
+        bookCount: newState.bookCount++,
+        books: [...newState.books, action.book]
       };
     case "RATE_THE_BOOK":
       return {
@@ -45,6 +44,12 @@ const reducer = (state = initialState, action) => {
         books: newState.books.map(book =>
           book.id === action.book.id ? action.book : book
         )
+      };
+    case "REMOVE_THE_BOOK":
+      return {
+        ...newState,
+        bookCount: newState.bookCount - 1,
+        books: newState.books.filter(book => book.id !== action.book.id)
       };
     default:
       return newState;

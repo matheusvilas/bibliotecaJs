@@ -8,11 +8,16 @@ export default class Book extends Component {
   onChange(star) {
     const { onChange, book } = this.props;
 
-    const rate = {
+    const newBook = {
       ...book,
       rate: star
     };
-    onChange(rate);
+    onChange(newBook);
+  }
+
+  onDelete() {
+    const { onDelete, book } = this.props;
+    onDelete(book);
   }
 
   render() {
@@ -23,7 +28,9 @@ export default class Book extends Component {
         <li className="book-single">
           <img className="book-img" src={imageUrl} alt={name} />
           <div className="book-info">
-            <button className="book-engine">X</button>
+            <button className="book-engine" onClick={() => this.onDelete()}>
+              X
+            </button>
             <p>{author}</p>
             <StarRatingComponent
               name={`nota-${id}`}

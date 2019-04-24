@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.scss";
-import Actions from "./actions";
 import { Route, Switch } from "react-router-dom";
 import Home from "./containers/Home";
 import Register from "./containers/Register";

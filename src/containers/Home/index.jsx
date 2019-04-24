@@ -14,15 +14,23 @@ class Home extends Component {
   onChange = updBook => {
     this.props.rateTheBook(updBook);
   };
-  // onChange(updBook) =>
+
+  onDelete = deleteBook => {
+    this.props.removeTheBook(deleteBook);
+  };
 
   render() {
-    const { books } = this.props;
+    const { books, bookCount } = this.props;
     return (
       <div className="home">
-        <BookRack title="Livros lidos">
+        <BookRack title="Livros lidos" bookCount={bookCount}>
           {books.map(book => (
-            <Book key={book.id} book={book} onChange={this.onChange} />
+            <Book
+              key={book.id}
+              book={book}
+              onChange={this.onChange}
+              onDelete={this.onDelete}
+            />
           ))}
         </BookRack>
 
@@ -38,7 +46,8 @@ const mapStateToProps = reducer => ({
 
 const mapDispatchToProps = dispatch => ({
   updateName: name => dispatch(Actions.updateName(name)),
-  rateTheBook: book => dispatch(Actions.rateTheBook(book))
+  rateTheBook: book => dispatch(Actions.rateTheBook(book)),
+  removeTheBook: book => dispatch(Actions.removeTheBook(book))
 });
 
 export default connect(
