@@ -20,21 +20,24 @@ class Home extends Component {
   };
 
   render() {
-    const { books, bookCount } = this.props;
+    const { books, bookRack } = this.props;
+
     return (
       <div className="home">
-        <BookRack title="Livros lidos" bookCount={bookCount}>
-          {books.map(book => (
-            <Book
-              key={book.id}
-              book={book}
-              onChange={this.onChange}
-              onDelete={this.onDelete}
-            />
-          ))}
-        </BookRack>
-
-        {/* {JSON.stringify(this.props)} */}
+        {bookRack.map(rack => (
+          <BookRack key={rack.id} title={rack.title} bookCount={2}>
+            {books.map(book =>
+              rack.id === book.bookRack ? (
+                <Book
+                  key={book.id}
+                  book={book}
+                  onChange={this.onChange}
+                  onDelete={this.onDelete}
+                />
+              ) : null
+            )}
+          </BookRack>
+        ))}
       </div>
     );
   }

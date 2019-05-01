@@ -4,6 +4,7 @@ const initialState = {
     {
       id: 1,
       name: "Nome do vento",
+      bookRack: 1,
       rate: 5,
       author: "Patrick Rothuss",
       imageUrl:
@@ -12,6 +13,7 @@ const initialState = {
     {
       id: 2,
       name: "IT - A coisa",
+      bookRack: 2,
       rate: 5,
       author: "Stephen King",
       imageUrl:
@@ -20,10 +22,25 @@ const initialState = {
     {
       id: 3,
       name: "Outsider",
+      bookRack: 3,
       rate: 5,
       author: "Stephen King",
       imageUrl:
         "http://statics.livrariacultura.net.br/products/capas_lg/223/2000138223.jpg"
+    }
+  ],
+  bookRack: [
+    {
+      id: 1,
+      title: "Lendo"
+    },
+    {
+      id: 2,
+      title: "Lidos"
+    },
+    {
+      id: 3,
+      title: "Parados"
     }
   ]
 };
