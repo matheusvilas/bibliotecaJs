@@ -23,10 +23,10 @@
 define('DB_NAME', 'biblioteca');
 
 /** MySQL database username */
-define('DB_USER', 'dev');
+define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'dev');
+define('DB_PASSWORD', 'root');
 
 /** MySQL hostname */
 define('DB_HOST', 'biblioteca-mysql');
