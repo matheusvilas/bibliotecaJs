@@ -1,33 +1,15 @@
 const initialState = {
   bookCount: 3,
   books: [
-    {
-      id: 1,
-      name: "Nome do vento",
-      bookRack: 1,
-      rate: 5,
-      author: "Patrick Rothuss",
-      imageUrl:
-        "https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=2659801&qld=90&l=430&a=-1=1006695900"
-    },
-    {
-      id: 2,
-      name: "IT - A coisa",
-      bookRack: 2,
-      rate: 5,
-      author: "Stephen King",
-      imageUrl:
-        "http://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=7697879&qld=90&l=430&a=-1"
-    },
-    {
-      id: 3,
-      name: "Outsider",
-      bookRack: 3,
-      rate: 5,
-      author: "Stephen King",
-      imageUrl:
-        "http://statics.livrariacultura.net.br/products/capas_lg/223/2000138223.jpg"
-    }
+    // {
+    //   id: 1,
+    //   name: "Nome do vento",
+    //   bookRack: 1,
+    //   rate: 5,
+    //   author: "Patrick Rothuss",
+    //   imageUrl:
+    //     "https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=2659801&qld=90&l=430&a=-1=1006695900"
+    // }
   ],
   bookRack: [
     {
@@ -47,7 +29,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   const newState = { ...state };
-  console.log("newState", newState);
+
   switch (action.type) {
     case "ADD_NEW_BOOK":
       return {
@@ -67,6 +49,22 @@ const reducer = (state = initialState, action) => {
         ...newState,
         bookCount: newState.bookCount - 1,
         books: newState.books.filter(book => book.id !== action.book.id)
+      };
+    case "FETCH_BOOK":
+      let newBooks = [];
+      action.books.map(book => {
+        newBooks[book.id] = {
+          id: book.id,
+          name: book.title.rendered,
+          author: book.acf.autor,
+          imageUrl: book.acf.imagem,
+          bookRack: 1
+        };
+      });
+
+      return {
+        ...newState,
+        books: newBooks
       };
     default:
       return newState;

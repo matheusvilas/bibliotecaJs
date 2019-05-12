@@ -3,7 +3,6 @@ import React, { Component, Fragment } from "react";
 export default class BookRack extends Component {
   render() {
     const { children, title, bookCount } = this.props;
-    console.log(this.props);
     return (
       <Fragment>
         <div className="bookRack">

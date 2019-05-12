@@ -1,6 +1,5 @@
-export const getAll = async () => {
-  const recebido = await fetch("https://jsonplaceholder.typicode.com/todos/1");
-  const result = recebido.json();
+import axios from "axios";
 
-  return result;
-};
+export default axios.create({
+  baseURL: `http://localhost:8010/wp-json/wp/v2/`
+});

@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import Actions from "../../actions";
+import Actions, { fetchAllPosts } from "../../actions";
 import { connect } from "react-redux";
 // import { getAll } from "./api";
 import BookRack from "../../components/BookRack";
 import Book from "../../components/Book";
 
 class Home extends Component {
-  // componentDidMount = async () => {
-  //   // const apiResult = await getAll();
-  //   // this.props.updateName(apiResult);
-  // };
+  componentDidMount = () => {
+    const { fetchAllPosts } = this.props;
+    fetchAllPosts();
+    console.log("eu vivo");
+    console.log(this.props);
+  };
 
   onChange = updBook => {
     this.props.rateTheBook(updBook);
@@ -22,6 +24,7 @@ class Home extends Component {
   render() {
     const { books, bookRack } = this.props;
 
+    console.log("books", books);
     return (
       <div className="home">
         {bookRack.map(rack => (
@@ -50,7 +53,7 @@ const mapStateToProps = reducer => ({
 const mapDispatchToProps = dispatch => ({
   updateName: name => dispatch(Actions.updateName(name)),
   rateTheBook: book => dispatch(Actions.rateTheBook(book)),
-  removeTheBook: book => dispatch(Actions.removeTheBook(book))
+  fetchAllPosts: () => dispatch(fetchAllPosts())
 });
 
 export default connect(

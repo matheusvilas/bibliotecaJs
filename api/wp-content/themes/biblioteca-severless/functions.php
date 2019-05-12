@@ -1,59 +1,93 @@
 <?php
+/**
+ * Register a book post type, with REST API support
+ *
+ * Based on example at: https://codex.wordpress.org/Function_Reference/register_post_type
+ */
+add_action('init', 'my_book_cpt');
+function my_book_cpt()
+{
+    $args = array(
+        'public' => true,
+        'show_in_rest' => true,
+        'label' => 'Books',
+    );
+    register_post_type('book', $args);
+}
 
-// Register Custom Livro
-function livro()
+/**
+ * Register a genre post type, with REST API support
+ *
+ * Based on example at: https://codex.wordpress.org/Function_Reference/register_taxonomy
+ */
+add_action('init', 'my_book_taxonomy', 30);
+function my_book_taxonomy()
 {
 
     $labels = array(
-        'name' => _x('Livros', 'Livro General Name', 'text_domain'),
-        'singular_name' => _x('Livro', 'Livro Singular Name', 'text_domain'),
-        'menu_name' => __('Livros', 'text_domain'),
-        'name_admin_bar' => __('Livro', 'text_domain'),
-        'archives' => __('Item Archives', 'text_domain'),
-        'attributes' => __('Item Attributes', 'text_domain'),
-        'parent_item_colon' => __('Parent Item:', 'text_domain'),
-        'all_items' => __('All Items', 'text_domain'),
-        'add_new_item' => __('Add New Item', 'text_domain'),
-        'add_new' => __('Add New', 'text_domain'),
-        'new_item' => __('New Item', 'text_domain'),
-        'edit_item' => __('Edit Item', 'text_domain'),
-        'update_item' => __('Update Item', 'text_domain'),
-        'view_item' => __('View Item', 'text_domain'),
-        'view_items' => __('View Items', 'text_domain'),
-        'search_items' => __('Search Item', 'text_domain'),
-        'not_found' => __('Not found', 'text_domain'),
-        'not_found_in_trash' => __('Not found in Trash', 'text_domain'),
-        'featured_image' => __('Featured Image', 'text_domain'),
-        'set_featured_image' => __('Set featured image', 'text_domain'),
-        'remove_featured_image' => __('Remove featured image', 'text_domain'),
-        'use_featured_image' => __('Use as featured image', 'text_domain'),
-        'insert_into_item' => __('Insert into item', 'text_domain'),
-        'uploaded_to_this_item' => __('Uploaded to this item', 'text_domain'),
-        'items_list' => __('Items list', 'text_domain'),
-        'items_list_navigation' => __('Items list navigation', 'text_domain'),
-        'filter_items_list' => __('Filter items list', 'text_domain'),
+        'name' => _x('Genres', 'taxonomy general name'),
+        'singular_name' => _x('Genre', 'taxonomy singular name'),
+        'search_items' => __('Search Genres'),
+        'all_items' => __('All Genres'),
+        'parent_item' => __('Parent Genre'),
+        'parent_item_colon' => __('Parent Genre:'),
+        'edit_item' => __('Edit Genre'),
+        'update_item' => __('Update Genre'),
+        'add_new_item' => __('Add New Genre'),
+        'new_item_name' => __('New Genre Name'),
+        'menu_name' => __('Genre'),
     );
+
     $args = array(
-        'label' => __('Livro', 'text_domain'),
-        'description' => __('Livro Description', 'text_domain'),
+        'hierarchical' => true,
         'labels' => $labels,
-        'supports' => array('title', 'editor'),
-        'taxonomies' => array('category', 'post_tag'),
-        'hierarchical' => false,
-        'public' => true,
-        'show_in_rest' => true,
         'show_ui' => true,
-        'show_in_menu' => true,
-        'menu_position' => 5,
-        'show_in_admin_bar' => true,
-        'show_in_nav_menus' => true,
-        'can_export' => true,
-        'has_archive' => true,
-        'exclude_from_search' => false,
-        'publicly_queryable' => true,
-        'capability_type' => 'page',
+        'show_admin_column' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'genre'),
+        'show_in_rest' => true,
+        'rest_base' => 'genre',
+        'rest_controller_class' => 'WP_REST_Terms_Controller',
     );
-    register_post_type('post_type', $args);
+
+    register_taxonomy('genre', array('book'), $args);
 
 }
-add_action('init', 'livro', 0);
+
+/**
+ * Add REST API support to an already registered post type.
+ */
+add_filter('register_post_type_args', 'my_post_type_args', 10, 2);
+
+function my_post_type_args($args, $post_type)
+{
+
+    if ('book' === $post_type) {
+        $args['show_in_rest'] = true;
+
+        // Optionally customize the rest_base or rest_controller_class
+        $args['rest_base'] = 'books';
+        $args['rest_controller_class'] = 'WP_REST_Posts_Controller';
+    }
+
+    return $args;
+}
+
+/**
+ * Add REST API support to an already registered taxonomy.
+ */
+add_filter('register_taxonomy_args', 'my_taxonomy_args', 10, 2);
+
+function my_taxonomy_args($args, $taxonomy_name)
+{
+
+    if ('genre' === $taxonomy_name) {
+        $args['show_in_rest'] = true;
+
+        // Optionally customize the rest_base or rest_controller_class
+        $args['rest_base'] = 'genres';
+        $args['rest_controller_class'] = 'WP_REST_Terms_Controller';
+    }
+
+    return $args;
+}
