@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web-biblioteca:
+    image: webdevops/php-apache:latest
+    container_name: biblioteca-web
+    ports:
+      - "8010:80"
+    restart: always
+    volumes:
+      - "../api:/app"
+    depends_on:
+      - "mysqldb-biblioteca"
+  mysqldb-biblioteca:
+    image: mysql:5.7
+    container_name: biblioteca-mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=biblioteca
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+    ports:
+      - 9010:3306
+    volumes:
+      - ./docker-files/data/db/mysql:/var/lib/mysql
